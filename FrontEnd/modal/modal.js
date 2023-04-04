@@ -108,11 +108,15 @@ btnModal1.addEventListener("click", function () {
     // Création d'un input de type "file"
     const inputPhoto = document.createElement("input");
     inputPhoto.type = "file";
+    inputPhoto.id = "inputPhotoId"
+
+
 
     // Ajout de l'écouteur d'événement change sur l'input "file"
     inputPhoto.addEventListener("change", function () {
         // Récupération du fichier sélectionné
         const fichier = inputPhoto.files[0];
+
 
         // Vérification que le fichier est une image
         if (fichier && fichier.type.startsWith("image/")) {
@@ -186,6 +190,7 @@ btnModal1.addEventListener("click", function () {
     div.appendChild(labelCategorie);
     div.appendChild(inputCategorie);
     div.appendChild(btnValider);
+    div.appendChild(inputPhoto);
 
     modif.appendChild(div);
 
@@ -205,32 +210,36 @@ btnModal1.addEventListener("click", function () {
         //Récupération des données du formulaire
 
 
-        const inputPhotoForm = inputPhoto;
-        const photoFormulaire = inputPhotoForm.files[0];
-        const imageUrl = URL.createObjectURL(photoFormulaire);
+        const inputPhotoForm = inputPhoto.files;
+        console.log(inputPhotoForm);
+
+
         const titreFormulaire = inputTitre.value;
         const categorieFormulaire = inputCategorie.value;
 
+        const test = document.getElementById('input-categorie-style').value;
+        console.log(test);
+
 
         //Création de l'objet formData contenant les donnée du forumlaire
-        const formData = new FormData();
-        formData.append("image", imageUrl);
-        formData.append("title", titreFormulaire);
-        formData.append("category", categorieFormulaire);
-        formData.append("userId", 1);
+        const donneeForm = new FormData();
+        donneeForm.append("image", inputPhotoForm);
+        donneeForm.append("title", titreFormulaire);
+        donneeForm.append("category", categorieFormulaire);
 
+        console.log("le formdata " + donneeForm);
         const token = sessionStorage.getItem("token");
         console.log(token);
 
         const reponse = await fetch("http://localhost:5678/api/works", {
             method: "POST",
             headers: {
-                "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY4MDU5MTgxMywiZXhwIjoxNjgwNjc4MjEzfQ.ZkF2SszKnE0cA3-G-mMbsJPliqzEFk3BTYy9ZgDoUUc",
-                "accept": "application/json",
+                Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY4MDU5MTgxMywiZXhwIjoxNjgwNjc4MjEzfQ.ZkF2SszKnE0cA3-G-mMbsJPliqzEFk3BTYy9ZgDoUUc",
+                accept: "application/json",
                 "Content-Type": "multipart/form-data"
 
             },
-            body: JSON.stringify(formData),
+            body: JSON.stringify(donneeForm),
         });
 
         if (reponse.ok) {
