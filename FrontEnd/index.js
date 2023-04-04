@@ -79,6 +79,9 @@ function genererworksmodal(works) {
         trashIcon.addEventListener("click", () => {
             fetch(`http://localhost:5678/api/works/${article.id}`, {
                 method: "DELETE",
+                headers: {
+                    "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY4MDU5MTgxMywiZXhwIjoxNjgwNjc4MjEzfQ.ZkF2SszKnE0cA3-G-mMbsJPliqzEFk3BTYy9ZgDoUUc",
+                }
             })
                 .then((response) => response.json())
                 .then((data) => {
