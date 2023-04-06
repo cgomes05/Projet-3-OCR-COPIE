@@ -493,6 +493,7 @@ footer nav ul {
 
 .imgI-style {
   position: relative;
+  left: 282px;
   bottom: 20px;
   font-size: 4rem;
   color: #b9c5cc;
@@ -504,7 +505,6 @@ footer nav ul {
   align-items: center;
   height: 500px;
   position: relative;
-  bottom: 375px;
 }
 
 #bouton-ajout {
@@ -520,13 +520,15 @@ footer nav ul {
   position: relative;
   font-size: 14px;
   font-weight: 500;
+  position: relative;
+  left: 228px;
 }
 
 #sous-titre-btnmodal {
   position: relative;
-  top: 7px;
+  bottom: 14px;
+  left: 268px;
   font-size: 10px;
-
   font-family: "Work Sans";
   color: #444444;
 }
@@ -538,7 +540,7 @@ footer nav ul {
 }
 
 #input-titre-style,
-#input-categorie-style {
+#select-categorie-style {
   height: 51px;
   width: 420px;
   position: relative;
@@ -551,8 +553,9 @@ footer nav ul {
   top: 65px;
 }
 
-#input-categorie-style {
-  top: 97px;
+#select-categorie-style {
+  top: 115px;
+  left: 100px;
 }
 
 #label-titre-style,
@@ -565,13 +568,13 @@ footer nav ul {
 }
 
 #label-titre-style {
-  bottom: 10px;
-  right: 197px;
+  top: 20px;
+  right: 424px;
 }
 
 #label-categorie-style {
-  top: 92px;
-  right: 177px;
+  top: 125px;
+  right: 460px;
 }
 
 #btn-valider-style {
@@ -580,7 +583,8 @@ footer nav ul {
   height: 36px;
   width: 237px;
   position: relative;
-  top: 157px;
+  top: 200px;
+  left: 195px;
   border: 0;
   text-align: center;
   font-size: 14px;
