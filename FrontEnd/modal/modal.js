@@ -81,6 +81,8 @@ const btnModal1 = modal1.querySelector("#btn-modal1");
 // Récupération du bouton "Supprimer la galerie"
 const btnModal2 = modal1.querySelector("#btn-modal2");
 
+// Création de la variable séléction pour sélectionner une catégorie
+let selection;
 
 // Ajout de l'écouteur d'événement click sur le bouton "Ajouter une photo" , pour que l'utilisateur puisse ajouter une photo depuis son pc
 btnModal1.addEventListener("click", function () {
@@ -108,7 +110,7 @@ btnModal1.addEventListener("click", function () {
 
     // Récupération de l'élément en question afin de lui attribué la fonction 
     // qui permettra de changer l'option en chiffre 
-    const selection = document.getElementById('select-categorie-style');
+    selection = document.getElementById('select-categorie-style');
 
     selection.addEventListener('change', function () {
         const selectionIndex = selection.selectedIndex;
@@ -117,15 +119,6 @@ btnModal1.addEventListener("click", function () {
         const categorieId = categories[selectionCategorie]
         console.log(categorieId);
     });
-
-
-
-
-
-
-
-
-
 
     // Ajout de la flèche retour avec la balise <i> de fontawesome
     const flecheRetour = document.createElement("i");
@@ -139,7 +132,6 @@ btnModal1.addEventListener("click", function () {
     flecheRetour.addEventListener("click", function () {
         // Affichage de la galerie
         gallery.style.display = "";
-
         // Affichage des boutons "Ajouter une photo" et "Supprimer la galerie"
         btnModal1.style.display = "";
         btnModal2.style.display = "";
@@ -148,3 +140,96 @@ btnModal1.addEventListener("click", function () {
 
     });
 });
+
+
+//Création de la fonctionnalité qui permet de charger une photo dans la modal
+
+//Récupération des élements
+const boutonAjoutInput = document.getElementById('bouton-ajout');
+const boutonAjoutStyle = document.querySelector('.style-bouton-ajout');
+const imgI = document.querySelector('.imgI-style');
+const imgPreview = document.getElementById('image-form');
+const spanSousTitre = document.getElementById('sous-titre-btnmodal');
+const titreTravaux = document.getElementById('input-titre-style');
+const boutonValider = document.getElementById('btn-valider-style');
+const formulaire = document.getElementById('divModalForm')
+
+
+// Mise en place de l'évènnement change au bouton Ajout
+boutonAjoutInput.addEventListener('change', (e) => {
+    const fichierImage = e.target.files[0];
+    if (!fichierImage) {
+        return;
+    }
+
+    const lecteurFichier = new FileReader();
+    lecteurFichier.readAsDataURL(fichierImage);
+    lecteurFichier.onload = () => {
+        imgPreview.src = lecteurFichier.result;
+        imgPreview.style.display = "block";
+        imgPreview.style.height = "193px";
+        imgPreview.style.width = "129px";
+        imgPreview.style.position = "relative";
+        imgPreview.style.left = "250px";
+        imgPreview.style.bottom = "50px";
+        boutonAjoutStyle.style.display = 'none';
+        imgI.style.display = "none";
+        spanSousTitre.style.color = "white";
+        spanSousTitre.style.bottom = "25px";
+    };
+
+});
+
+
+// Mise en place de l'évènnement submit au bouton Valider
+formulaire.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const fichier = boutonAjoutInput.files[0];
+    if (!fichier) {
+        return;
+    }
+    // Création de l'objet FormData
+    const formData = new FormData();
+    formData.append("image", fichier);
+    formData.append("title", titreTravaux.value);
+    formData.append("category", selection.value);
+
+    const url = 'http://localhost:5678/api/works';
+    const token = sessionStorage.getItem('token');
+    // Envoie une requête a l'url via la méthod 'POST'
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data',
+
+        },
+        body: formData
+    })
+        .then(response => response.json())
+        .then(data => {
+            // Effectuer une nouvelle requête pour récupérer tous les projets mis à jour
+            fetch('http://localhost:5678/api/works')
+                .then(response => response.json())
+                .then(data => {
+                    // Mettre à jour la galerie de la modal avec les projets mis à jour
+                    const sectionGallery = document.querySelector("#gallery-modal");
+                    sectionGallery.innerHTML = ""; // Effacer les anciens projets
+                    genererworksmodal(data);
+                    genererworks(data);
+                })
+                .catch(error => console.error("Error:", error));
+        })
+        .catch(error => console.error("Error:", error));
+
+})
+
+
+
+
+
+
+
+
+
+

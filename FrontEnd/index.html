@@ -83,9 +83,13 @@
 						<button id="btn-modal2">Supprimer la galerie</button>
 					</div>
 
-					<div class="div-modal-style" id="divModalForm" style="display: none;">
+					<form class="div-modal-style" id="divModalForm" style="display: none;">
 						<span class="fa-sharp fa-regular fa-image imgI-style"></span>
-						<button id="bouton-ajout">+ Ajouter photo</button>
+
+						<img id="image-form" src="" alt="img">
+						<label for="bouton-ajout" class="style-bouton-ajout">+ Ajouter photo</label>
+						<input type="file" id="bouton-ajout" name="image" accept="image/jpeg,image/png" required>
+
 						<span id="sous-titre-btnmodal">jpg, png : 4mo max</span>
 						<input type="text" id="input-titre-style">
 						<label for="input-titre-style" id="label-titre-style">Titre</label>
@@ -96,10 +100,10 @@
 							<option value="hotelresto">Hôtel & restaurants</option>
 						</select>
 						<div class="trait"></div>
-						<button id="btn-valider-style">Valider</button>
+						<button id="btn-valider-style" type="submit">Valider</button>
 
 
-					</div>
+					</form>
 				</div>
 
 			</aside>

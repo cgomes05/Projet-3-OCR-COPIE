@@ -507,7 +507,7 @@ footer nav ul {
   position: relative;
 }
 
-#bouton-ajout {
+.style-bouton-ajout {
   background-color: #cbd6dc;
   height: 36px;
   width: 173px;
@@ -522,6 +522,10 @@ footer nav ul {
   font-weight: 500;
   position: relative;
   left: 228px;
+}
+
+#bouton-ajout {
+  display: none;
 }
 
 #sous-titre-btnmodal {
@@ -591,4 +595,8 @@ footer nav ul {
   font-family: "Syne";
   font-weight: 700;
   color: #ffffff;
+}
+
+#image-form {
+  display: none;
 }
