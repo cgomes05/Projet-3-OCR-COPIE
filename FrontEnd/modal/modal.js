@@ -180,49 +180,152 @@ boutonAjoutInput.addEventListener('change', (e) => {
 
 });
 
+ // Fonction pour télécharger les photos
+//  function telecharger() {
+//     const input = document.getElementById("img_input");
+//     var telecharger_image = "";
+//     const reader = new FileReader();
+
+//     // Ajoute un écouteur d'événements pour charger l'image
+//     reader.addEventListener("load", () => {
+//       telecharger_image = reader.result;
+//       //const photo = document.getElementById("image_telecharger");
+//       //document.getElementById("image_telecharger_images").style.display = null;
+
+//     //   photo.style.backgroundImage = `url(${telecharger_image} )`;
+//     //   document.getElementById("model_ajout_container").style.display = "none";
+//     });
+
+//     reader.readAsDataURL(this.files[0]);
+//   }
+
+//   // Ajoute un écouteur d'événements pour télécharger les photos
+//   document.getElementById("bouton-ajout").addEventListener("change", telecharger);
+
+
+  ///////////////////Envoi des fichiers a API///////////////////
+
+  document.getElementById("divModalForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    // Récupération des éléments du formulaire
+    const photo = document.getElementById("bouton-ajout");
+    const category = document.getElementById("select-categorie-style");
+    const title = document.getElementById("input-titre-style");
+
+      // Récupération de l'image et du token de l'utilisateur
+      const image = document.getElementById("bouton-ajout").files[0];
+      const testToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY4MDk4ODIwNiwiZXhwIjoxNjgxMDc0NjA2fQ.5XmGJzbP8LZ384kb_fR6gwGT-mmQqy671kz8EvQXBsU'
+      const token = sessionStorage.getItem("token");
+      console.log(`Bearer  ${token}`);
+      const titre = document.getElementById("input-titre-style").value;
+const element = {
+    "imageUrl":"Cristiano_JR_coloring_page_of_cute_unicorn_for_kids_a3e8e223-4fa2-4a23-83ba-47a32ff9cbba.png",
+    "title" :"Test",
+    "categoryId":2
+
+
+}
+      // Vérification de la taille de l'image
+      if (image.size < 4 * 1048576) {
+        // Création du formulaire pour l'envoi des données
+        const formData = new FormData();
+        formData.append("image", image);
+        formData.append("title", titre);
+        formData.append("category", 2);
+console.log("voici la value image",formData.getAll("imageUrl") )
+console.log("voici la value title ",formData.getAll("title") )
+console.log("voici la value voici la value",formData.getAll("categoryId") )
+console.log("voici la value",formData )
+console.log("voici la value",element )
+        // Envoi des données à l'API via une requête POST
+        const setNewProject = async (data) => {
+          try {
+            const requete = await fetch(
+              "http://localhost:5678/api/works",
+              {
+                method: "POST",
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                  accept: "application/json",
+                },
+                body: data,
+              }
+            );
+            if (requete.status === 201) {
+            //   document.querySelector(".gallery").innerHTML = "";
+            //   document.getElementById("model_gallery").innerHTML = "";
+            //   tout();
+            //   afficheModel();
+            console.log("tout va bien !")
+            } else {
+                
+              throw "Un problème est survenu.";
+            }
+          } catch (e) {
+            console.log(e);
+          }
+        };
+        setNewProject(formData);
+    } else {
+      // Affichage d'un message d'erreur si la taille de l'image est trop grande
+      document.getElementById("msg_err").innerHTML =
+        "La taille de la photo est supérieure à 4 Mo.";
+      // Réinitialisation du champ d'upload de fichier
+      photo.value = null;
+      document.getElementById(
+        "model_ajout_container"
+      ).style.display = null;
+      document.getElementById(
+        "image_telecharger_images"
+      ).style.display = "none";
+    }
+  })
+
+
+
 
 // Mise en place de l'évènnement submit au bouton Valider
-formulaire.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const fichier = boutonAjoutInput.files[0];
-    if (!fichier) {
-        return;
-    }
-    // Création de l'objet FormData
-    const formData = new FormData();
-    formData.append("image", fichier);
-    formData.append("title", titreTravaux.value);
-    formData.append("category", selection.value);
+// const test = document.getElementById('btn-valider-style');
+// test.addEventListener('click', async (e)  => {
+//     e.preventDefault();
+//     // const fichier = boutonAjoutInput.files[0];
+//     // if (!fichier) {
+//     //     return;
+//     // }
+//     // Création de l'objet FormData
+//     const fichier = document.getElementById('image-form')
+//     console.log("voici les données",)
+//     const formData = new FormData();
+//     formData.append("imageUrl", fichier);
+//     formData.append("title", titreTravaux.value);
+//     formData.append("categoryId", selection.value);
+// const element = {
+//     imageUrl:'http://localhost:5678/images/CoderlyLogo1680869560812.png',
+//     title :'Test',
+//     categoryId:2,
+//     userId:1
 
-    const url = 'http://localhost:5678/api/works';
-    const token = sessionStorage.getItem('token');
-    // Envoie une requête a l'url via la méthod 'POST'
-    fetch(url, {
-        method: 'POST',
-        headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'multipart/form-data',
+// }
+// //console.log(element)
+//     const token = sessionStorage.getItem('token');
+//     // Envoie une requête a l'url via la méthod 'POST'
+//     console.log("Voici les donner de formdata",formData.getAll('imageUrl'))
+   
+//     console.log("voici le token", token)
+//     fetch('http://localhost:5678/api/works/', {
+//         method: 'POST',
+//         headers: {
+         
+//             'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY4MDk4Njk0NiwiZXhwIjoxNjgxMDczMzQ2fQ.HqMbvvISN1vONA0Sf1rLxMXig0XbqMEtm9ZWXviUnFY`,
+//         },
+//          body: formData
+//     })
+//     .then(response =>response.json())
+//     .then(data => console.log(data))
 
-        },
-        body: formData
-    })
-        .then(response => response.json())
-        .then(data => {
-            // Effectuer une nouvelle requête pour récupérer tous les projets mis à jour
-            fetch('http://localhost:5678/api/works')
-                .then(response => response.json())
-                .then(data => {
-                    // Mettre à jour la galerie de la modal avec les projets mis à jour
-                    const sectionGallery = document.querySelector("#gallery-modal");
-                    sectionGallery.innerHTML = ""; // Effacer les anciens projets
-                    genererworksmodal(data);
-                    genererworks(data);
-                })
-                .catch(error => console.error("Error:", error));
-        })
-        .catch(error => console.error("Error:", error));
 
-})
+// })
 
 
 
